@@ -10,7 +10,7 @@ script:
         #- docker run raxetul/$REPO_NAME --version
         # push image
         - >
-          echo $DOCKER_USER/$REPO_NAME
+          echo $DOCKER_USER/$REPO_NAME; \
           if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
               docker login -u="$DOCKER_USER" -p="'$DOCKER_PASS'"
               TAG=`docker run -i --entrypoint=/bin/busybox  $DOCKER_USER/$REPO_NAME -c 'cat /etc/alpine-release'`
@@ -29,7 +29,7 @@ script:
         #- docker run raxetul/$REPO_NAME --version
         # push image
         - >
-          echo $DOCKER_USER/$REPO_NAME
+          echo $DOCKER_USER/$REPO_NAME; \
           if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
               docker login -u="$DOCKER_USER" -p="'$DOCKER_PASS'"
               TAG=`docker run -i --entrypoint=/bin/busybox  $DOCKER_USER/$REPO_NAME -c 'cat /etc/alpine-release'`
