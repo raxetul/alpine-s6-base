@@ -12,7 +12,7 @@ script:
         - >
           if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
               docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-              TAG=`docker run $DOCKER_USER/$REPO_NAME busybox cat /etc/alpine-release`
+              TAG=`docker run -i --entrypoint=/bin/busybox  $DOCKER_USER/$REPO_NAME -c 'cat /etc/alpine-release'`
               docker tag  raxetul/$REPO_NAME raxetul/$REPO_NAME:$TAG
               docker push raxetul/$REPO_NAME:$TAG
               docker push raxetul/$REPO_NAME
@@ -29,7 +29,7 @@ script:
         - >
           if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
               docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-              TAG=`docker run $DOCKER_USER/$REPO_NAME busybox cat /etc/alpine-release`
+              TAG=`docker run -i --entrypoint=/bin/busybox  $DOCKER_USER/$REPO_NAME -c 'cat /etc/alpine-release'`
               docker tag  raxetul/$REPO_NAME raxetul/$REPO_NAME:$TAG
               docker push raxetul/$REPO_NAME:$TAG
               docker push raxetul/$REPO_NAME
