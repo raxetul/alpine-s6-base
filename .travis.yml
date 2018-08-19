@@ -4,6 +4,8 @@ env:
 services:
         - docker
 language: bash
+before_script:
+        - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
 script:
         # build amd64
         - docker build --build-arg ARCH=amd -t $DOCKER_USER/$REPO_NAME:amd64-edge .
