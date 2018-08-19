@@ -6,33 +6,11 @@ services:
 language: bash
 script:
         - docker build -t $DOCKER_USER/$REPO_NAME .
-        # test image
-        #- docker run raxetul/$REPO_NAME --version
         # push image
-        - >
-          if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-              docker login -u=$DOCKER_USER -p='$DOCKER_PASS'
-              TAG=`docker run -i --entrypoint=/bin/busybox  $DOCKER_USER/$REPO_NAME -c 'cat /etc/alpine-release'`
-              echo TAG:  $TAG
-              docker tag  raxetul/$REPO_NAME raxetul/$REPO_NAME:$TAG
-              docker push raxetul/$REPO_NAME:$TAG
-              docker push raxetul/$REPO_NAME
-          fi
-          
+        - . docker_push  
         # build arm32v7 image
         # prepare qemu
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
         - docker run --rm --privileged arm32v7/debian
         - docker build -t $DOCKER_USER/$REPO_NAME .
-        # test image
-        #- docker run raxetul/$REPO_NAME --version
-        # push image
-        - >
-          if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-              docker login -u=$DOCKER_USER -p='$DOCKER_PASS'
-              TAG=`docker run -i --entrypoint=/bin/busybox  $DOCKER_USER/$REPO_NAME -c 'cat /etc/alpine-release'`
-              echo TAG:  $TAG
-              docker tag  raxetul/$REPO_NAME raxetul/$REPO_NAME:$TAG
-              docker push raxetul/$REPO_NAME:$TAG
-              docker push raxetul/$REPO_NAME
-          fi
+        - . docker_push
