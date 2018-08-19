@@ -5,12 +5,14 @@ services:
         - docker
 language: bash
 script:
-        - docker build -t $DOCKER_USER/$REPO_NAME .
+        # build amd64
+        - docker build --build-arg=amd64 -t $DOCKER_USER/$REPO_NAME:amd64-latest .
         # push image
-        - . docker_push  
-        # build arm32v7 image
+        - . docker_push amd64
+        
+        # build arm32v7
         # prepare qemu
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker run --rm --privileged arm32v7/debian
-        - docker build -t $DOCKER_USER/$REPO_NAME .
-        - . docker_push
+        - docker build --build-arg=armhf -t $DOCKER_USER/$REPO_NAME:armhf-latest .
+        #push image
+        - . docker_push armhf
