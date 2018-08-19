@@ -1,4 +1,4 @@
-FROM multiarch/alpine:TARGET_ARCH-edge
+FROM alpine
 
 MAINTAINER Emrah URHAN <raxetul@gmail.com>
 
