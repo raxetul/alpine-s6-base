@@ -8,15 +8,15 @@ script:
         # prepare qemu
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
         # build image
-        - docker build -t raxetul/$REPO_NAME .
+        - docker build -t $DOCKER_USER/$REPO_NAME --build-arg ARCH=$TARGET_ARCH .
         # test image
         #- docker run raxetul/$REPO_NAME --version
         # push image
         - >
           if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
               docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-              TAG=`cat /etc/alpine-release`
-              docker tag raxetul/$REPO_NAME:$TAG
+              TAG=`docker run $DOCKER_USER/$REPO_NAME busybox cat /etc/alpine-release`
+              docker tag  raxetul/$REPO_NAME raxetul/$REPO_NAME:$TAG
               docker push raxetul/$REPO_NAME:$TAG
               docker push raxetul/$REPO_NAME
           fi

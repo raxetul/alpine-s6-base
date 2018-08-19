@@ -16,7 +16,7 @@ RUN mkdir -p /s6/
 ## Use these 3 lines to add your dummy service in s6 supervision.
 ## services should havie run and finish scripts in their folder and folder should be copied
 ## into /s6 folder. /s6 folder will be used in ENTRYPOINT.
-## You should not change ENTRYPOIN in your docker files
+## You should not change ENTRYPOINT in your docker files
 #########################################################################################
 # COPY dummy-service /s6/dummy-service
 # RUN chmod +x /s6/dummy-service/run /s6/dummy-service/finish \
