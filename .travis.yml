@@ -6,13 +6,13 @@ services:
 language: bash
 script:
         # build amd64
-        - cat Dockerfile | sed "s/TARGET_ARCH/amd64/g" | docker build --build-arg=amd64 -t $DOCKER_USER/$REPO_NAME:amd64-edge -
+        - cat Dockerfile | sed "s/TARGET_ARCH/amd64/g" | docker build -t $DOCKER_USER/$REPO_NAME:amd64-edge -
         # push image
         - . docker_push amd64
         
         # build arm32v7
         # prepare qemu
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - cat Dockerfile | sed "s/TARGET_ARCH/armhf/g" | docker build --build-arg=amd64 -t $DOCKER_USER/$REPO_NAME:armhf-edge -
+        - cat Dockerfile | sed "s/TARGET_ARCH/armhf/g" | docker build -t $DOCKER_USER/$REPO_NAME:armhf-edge -
         #push image
         - . docker_push armhf
