@@ -1,6 +1,6 @@
 sudo: required
 env:
-        REPO_NAME=rpi-alpine-s6-base
+        REPO_NAME=alpine-s6-base
 services:
         - docker
 language: bash
