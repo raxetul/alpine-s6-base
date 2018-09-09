@@ -16,6 +16,6 @@ script:
         #push image
         - . docker_push armhf-edge
         # build aarch64
-         - docker build --build-arg TAG=aarch64-edge -t $DOCKER_USER/$REPO_NAME:aarch64-edge .
+        - docker build --build-arg TAG=aarch64-edge -t $DOCKER_USER/$REPO_NAME:aarch64-edge .
         #push image
         - . docker_push aarch64
