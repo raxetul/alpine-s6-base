@@ -8,13 +8,20 @@ before_script:
         - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
 script:
         # build amd64
-        - docker build --build-arg ARCH=amd -t $DOCKER_USER/$REPO_NAME:amd64-edge .
+        - docker build --build-arg ARCH=amd64 -t $DOCKER_USER/$REPO_NAME:amd64-edge .
         # push image
         - . docker_push amd64
         
+        - docker run --rm --privileged multiarch/qemu-user-static:register --reset      
+        
         # build arm32v7
         # prepare qemu
-        - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker build --build-arg ARCH=arm32v7 -t $DOCKER_USER/$REPO_NAME:armhf-edge .
+        - docker build --build-arg TAG=armhf-edge -t $DOCKER_USER/$REPO_NAME:armhf-edge .
         #push image
-        - . docker_push armhf
+        - . docker_push armhf-edge
+
+
+        # build aarch64
+         - docker build --build-arg TAG=aarch64-edge -t $DOCKER_USER/$REPO_NAME:aarch64-edge .
+        #push image
+        - . docker_push aarch64-edge

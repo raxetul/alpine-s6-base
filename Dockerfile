@@ -1,6 +1,11 @@
-FROM alpine
+
+ARG TAG=amd64
+FROM multiarch/alpine:$TAG
+
 
 MAINTAINER Emrah URHAN <raxetul@gmail.com>
+
+RUN echo "Building image for architecture ${TAG}"
 
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/main/" >> /etc/apk/repositories && \
