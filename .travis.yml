@@ -11,17 +11,13 @@ script:
         - docker build --build-arg ARCH=amd64 -t $DOCKER_USER/$REPO_NAME:amd64-edge .
         # push image
         - . docker_push amd64
-        
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset      
-        
         # build arm32v7
         # prepare qemu
         - docker build --build-arg TAG=armhf-edge -t $DOCKER_USER/$REPO_NAME:armhf-edge .
         #push image
         - . docker_push armhf-edge
-
-
         # build aarch64
          - docker build --build-arg TAG=aarch64-edge -t $DOCKER_USER/$REPO_NAME:aarch64-edge .
         #push image
-        - . docker_push aarch64-edge
+        - . docker_push aarch64
