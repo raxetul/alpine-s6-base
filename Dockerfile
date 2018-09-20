@@ -2,7 +2,6 @@
 ARG TAG=amd64
 FROM multiarch/alpine:$TAG
 
-
 MAINTAINER Emrah URHAN <raxetul@gmail.com>
 
 RUN echo "Building image for architecture ${TAG}"
