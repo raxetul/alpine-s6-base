@@ -39,6 +39,9 @@ script:
         - bash -c 'echo "-----------------------------------------------------------------------------------------"'
         
         - bash -c 'echo "PREPARING MANIFEST -------------- -------------------------------------------------------"'
-        - docker manifest create $DOCKER_USER/$REPO_NAME:edge  $DOCKER_USER/$REPO_NAME:amd64-edge $DOCKER_USER/$REPO_NAME:armhf-edge $DOCKER_USER/$REPO_NAME:aarch64-edge 
+        - docker manifest create $DOCKER_USER/$REPO_NAME:edge  $DOCKER_USER/$REPO_NAME:amd64-edge $DOCKER_USER/$REPO_NAME:armhf-edge $DOCKER_USER/$REPO_NAME:aarch64-edge
+        - docker manifest annotate $DOCKER_USER/$REPO_NAME:edge $DOCKER_USER/$REPO_NAME:amd64-edge --os linux --arch amd64
+        - docker manifest annotate $DOCKER_USER/$REPO_NAME:edge $DOCKER_USER/$REPO_NAME:armhf-edge --os linux --arch arm
+        - docker manifest annotate $DOCKER_USER/$REPO_NAME:edge $DOCKER_USER/$REPO_NAME:aarch64-edge --os linux --arch arm64 --variant armv8
         - docker manifest push $DOCKER_USER/$REPO_NAME:edge  
         - bash -c 'echo "-----------------------------------------------------------------------------------------"'
