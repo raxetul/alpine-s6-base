@@ -3,6 +3,7 @@ services:
         - docker
 language: bash
 script:
+        echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
         # build amd64
         - echo "BUILDING FOR AMD64 ARCHITECTURE ---------------------------------------------------------"
         - docker build --build-arg TAG=amd64-edge -t $DOCKER_USER/$REPO_NAME:amd64-edge .
