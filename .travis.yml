@@ -3,6 +3,7 @@ services:
         - docker
 language: bash
 script:
+        - docker version
         - sudo cat /etc/docker/daemon.json
         - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
         - sudo cat /etc/docker/daemon.json
