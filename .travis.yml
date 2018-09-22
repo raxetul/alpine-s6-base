@@ -3,7 +3,9 @@ services:
         - docker
 language: bash
 script:
+        - cat /etc/docker/daemon.json
         - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
+        - cat /etc/docker/daemon.json
         - sudo service docker restart
         # build amd64
         - bash -c 'echo "BUILDING FOR AMD64 ARCHITECTURE ---------------------------------------------------------"'
