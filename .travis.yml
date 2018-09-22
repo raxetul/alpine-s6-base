@@ -10,7 +10,7 @@ script:
         - docker version
         - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
         - mkdir ~/.docker
-        - echo '{"experimental":true}' | tee ~/.docker/config.json
+        - echo '{"experimental":"enabled"}' | tee ~/.docker/config.json
         - sudo service docker restart
 
         # build amd64
