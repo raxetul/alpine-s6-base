@@ -10,6 +10,7 @@ script:
         - docker version
         - sudo cat /etc/docker/daemon.json
         - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
+        - echo '{"experimental":true}' | tee ~/.docker/config.json
         - sudo cat /etc/docker/daemon.json
         - sudo service docker restart
         - sudo docker version -f '{{.Server.Experimental}}'
