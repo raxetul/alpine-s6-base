@@ -8,12 +8,11 @@ services:
 language: bash
 script:
         - docker version
-        - sudo cat /etc/docker/daemon.json
         - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
+        - mkdir ~/.docker
         - echo '{"experimental":true}' | tee ~/.docker/config.json
-        - sudo cat /etc/docker/daemon.json
         - sudo service docker restart
-        - sudo docker version -f '{{.Server.Experimental}}'
+
         # build amd64
         - bash -c 'echo "BUILDING FOR AMD64 ARCHITECTURE ---------------------------------------------------------"'
         - docker build --build-arg TAG=amd64-edge -t $DOCKER_USER/$REPO_NAME:amd64-edge .
