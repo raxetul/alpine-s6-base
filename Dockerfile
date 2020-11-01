@@ -1,4 +1,3 @@
-
 FROM alpine
 
 LABEL maintainer="Emrah URHAN <raxetul@gmail.com>"
