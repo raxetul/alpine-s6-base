@@ -47,6 +47,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Enable Docker Experimental Features
+        run: export DOCKER_CLI_EXPERIMENTAL=enabled
+
       - name: Check Docker Experimental Features
         run: docker version -f '{{.Server.Experimental}}'
 
