@@ -1,6 +1,5 @@
 
-ARG TAG=amd64
-FROM multiarch/alpine:$TAG
+FROM alpine
 
 LABEL maintainer="Emrah URHAN <raxetul@gmail.com>"
 
