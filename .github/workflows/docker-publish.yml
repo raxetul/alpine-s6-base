@@ -47,6 +47,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Check Docker Experimental Features
+        run: docker version -f '{{.Server.Experimental}}'
+
       - name: Build image
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
@@ -58,10 +61,10 @@ jobs:
           # Username used to log against the Docker registry
           username: ${{ github.repository_owner }}
           # Password or personal access token used to log against the Docker registry
-          password: $TOKEN
+          password: $CR_TOKEN
           
     # Log out from the Docker registry at the end of a job
-      - name: Push image to GitHub Container Registry
+      - name: Push image to Container Registry
         run: |
           IMAGE_ID=${{ github.repository_owner }}/$IMAGE_NAME
 
