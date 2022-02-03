@@ -3,7 +3,8 @@ name: Build And Push Image
 on:
   push:
     branches: master
-
+  workflow_dispatch:
+    
 jobs:
   multi:
     runs-on: ubuntu-latest
