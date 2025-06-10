@@ -39,4 +39,4 @@ RUN mkdir /app /conf /data /web /log /cert
 VOLUME ["/app","/conf","/data","/web","/log","/cert"]
 #########################################################################################
 
-ENTRYPOINT ["/bin/s6-svscan","/s6"]
+ENTRYPOINT ["/usr/bin/s6-svscan","/s6"]
