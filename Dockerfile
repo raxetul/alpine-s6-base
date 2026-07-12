@@ -1,14 +1,8 @@
-FROM alpine
+FROM alpine:3.24
 
 LABEL maintainer="Emrah URHAN <raxetul@gmail.com>"
 
-RUN echo "Building image for architecture ${TAG}"
-
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
-    echo "http://dl-cdn.alpinelinux.org/alpine/edge/main/" >> /etc/apk/repositories && \
-    apk update && \
-    apk add --upgrade apk-tools && \
-    apk add --no-cache \
+RUN apk add --no-cache \
       bash \
       s6 \
       tzdata
