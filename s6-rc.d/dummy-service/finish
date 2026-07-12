@@ -1,0 +1,3 @@
+#!/command/with-contenv sh
+## Cleanup tasks go here (they run when the service stops).
+echo "SERVICE ENDED: dummy-service"

@@ -2,35 +2,60 @@ FROM alpine:3.24
 
 LABEL maintainer="Emrah URHAN <raxetul@gmail.com>"
 
+## s6-overlay is the init / process supervisor (PID 1). It replaces the bare
+## s6-svscan setup used previously and gives us proper signal handling, so
+## `docker stop` shuts services down gracefully instead of timing out.
+ARG S6_OVERLAY_VERSION=3.2.3.0
+## TARGETARCH / TARGETVARIANT are provided automatically by Docker Buildx,
+## one value per target platform. We map them to s6-overlay's asset names.
+ARG TARGETARCH
+ARG TARGETVARIANT
+
 RUN apk add --no-cache \
       bash \
-      s6 \
-      tzdata
+      ca-certificates \
+      tzdata \
+  && apk add --no-cache --virtual .s6-build xz \
+  && case "${TARGETARCH}/${TARGETVARIANT}" in \
+       amd64/*)   S6_ARCH=x86_64 ;; \
+       arm64/*)   S6_ARCH=aarch64 ;; \
+       arm/v7)    S6_ARCH=arm ;; \
+       arm/v6)    S6_ARCH=armhf ;; \
+       ppc64le/*) S6_ARCH=powerpc64le ;; \
+       s390x/*)   S6_ARCH=s390x ;; \
+       *) echo "Unsupported architecture: ${TARGETARCH}/${TARGETVARIANT}" >&2; exit 1 ;; \
+     esac \
+  && echo "Installing s6-overlay ${S6_OVERLAY_VERSION} for ${S6_ARCH}" \
+  && wget -qO /tmp/s6-overlay-noarch.tar.xz \
+       "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz" \
+  && wget -qO /tmp/s6-overlay-arch.tar.xz \
+       "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.xz" \
+  && tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz \
+  && tar -C / -Jxpf /tmp/s6-overlay-arch.tar.xz \
+  && rm -f /tmp/s6-overlay-noarch.tar.xz /tmp/s6-overlay-arch.tar.xz \
+  && apk del .s6-build
 
-RUN mkdir -p /s6/
-
-## Use these 3 lines to add your dummy service in s6 supervision.
-## services should havie run and finish scripts in their folder and folder should be copied
-## into /s6 folder. /s6 folder will be used in ENTRYPOINT.
-## You should not change ENTRYPOINT in your docker files
+## Adding your own service (s6-rc / s6-overlay v3 style):
+##   A long-running service lives in /etc/s6-overlay/s6-rc.d/<name>/ and needs:
+##     - a "type" file containing the word "longrun"
+##     - an executable "run" script (see dummy-service/ for a template)
+##     - an optional "finish" script for cleanup
+##   Enable it at boot by creating an empty flag file:
+##     /etc/s6-overlay/s6-rc.d/user/contents.d/<name>
+##   Then COPY the whole tree into the image. See the alpine-s6-nginx image
+##   for a real, working example.
 #########################################################################################
-# COPY dummy-service /s6/dummy-service
-# RUN chmod +x /s6/dummy-service/run /s6/dummy-service/finish \
-#  && chown root /s6/dummy-service/run /s6/dummy-service/finish
+# COPY s6-rc.d /etc/s6-overlay/s6-rc.d
 #########################################################################################
 
-COPY .s6-svscan /s6/.s6-svscan
-RUN chmod +x /s6/.s6-svscan/finish && chown root /s6/.s6-svscan/finish
-
-## Use "data" for keeping rw files such as db,
-##     "web" for web files such as php's, html's
-##     "app" for compiled apps such as nodejs, golang, c++, etc
-##      (your application binary may placed in /app or /app/bin, see run level "2" script)
-##     "log" for log files
-##     "cert" for ssl certificates, public/private keys
+## Standard mount points:
+##   "data" rw files such as db,   "web"  web files (php/html),
+##   "app"  compiled app binaries, "log"  log files,
+##   "conf" configuration files,   "cert" ssl certificates / public/private keys
 #########################################################################################
-RUN mkdir /app /conf /data /web /log /cert
+RUN mkdir -p /app /conf /data /web /log /cert
 VOLUME ["/app","/conf","/data","/web","/log","/cert"]
 #########################################################################################
 
-ENTRYPOINT ["/usr/bin/s6-svscan","/s6"]
+## /init comes from s6-overlay. Child images MUST NOT override this ENTRYPOINT.
+ENTRYPOINT ["/init"]

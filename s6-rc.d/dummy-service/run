@@ -1,0 +1,6 @@
+#!/command/with-contenv sh
+# with-contenv imports the container environment before running this script.
+echo "STARTED SERVICE: dummy-service"
+## Replace the line below with your own long-running process.
+## Always exec the final command so it becomes the supervised PID.
+exec echo "Dummy service running in the rain..."

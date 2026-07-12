@@ -1,7 +1,0 @@
-#!/bin/sh
-
-
-
-
-## Add your halt tasks above if exist
-echo "Container Halted..."
