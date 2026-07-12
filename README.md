@@ -10,5 +10,5 @@ docker pull raxetul/alpine-s6-base
 If you want to build images that inherit this image, you may see my other repos starting with the name alpine-s6-*** and find out how I use this base image by checking Dockerfiles.
 
 ## Build status
-[![Github Actions Build Status](https://github.com/raxetul/alpine-s6-base/workflows/{workflowName}/badge.svg)](https://github.com/raxetul/alpine-s6-base/actions)
+[![Build Status](https://github.com/raxetul/alpine-s6-base/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/raxetul/alpine-s6-base/actions/workflows/docker-publish.yml)
 
