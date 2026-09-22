@@ -1,11 +1,11 @@
-FROM alpine:3.24
+FROM alpine:3.24.2
 
 LABEL maintainer="Emrah URHAN <raxetul@gmail.com>"
 
 ## s6-overlay is the init / process supervisor (PID 1). It replaces the bare
 ## s6-svscan setup used previously and gives us proper signal handling, so
 ## `docker stop` shuts services down gracefully instead of timing out.
-ARG S6_OVERLAY_VERSION=3.2.3.0
+ARG S6_OVERLAY_VERSION=3.2.3.2
 ## TARGETARCH / TARGETVARIANT are provided automatically by Docker Buildx,
 ## one value per target platform. We map them to s6-overlay's asset names.
 ARG TARGETARCH
