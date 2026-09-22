@@ -9,6 +9,12 @@ docker pull raxetul/alpine-s6-base
 
 If you want to build images that inherit this image, you may see my other repos starting with the name alpine-s6-*** and find out how I use this base image by checking Dockerfiles.
 
+## Tags
+- `latest` — newest build
+- `3.24` — newest build on that Alpine minor
+- `3.24.2` — that exact Alpine patch release
+- `YYYY-MM-DD` — immutable build date
+
 ## Build status
 [![Build Status](https://github.com/raxetul/alpine-s6-base/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/raxetul/alpine-s6-base/actions/workflows/docker-publish.yml)
 
